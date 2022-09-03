@@ -40,4 +40,18 @@ contract HelloWorld{
         hasInteracted[msg.sender] = true;
     }
 
+    //PURE?
+    //não usa nada que o usuário está passando, ou transação. não consulta, e nem altera blockchain
+    //as funções PURAS são grátis.
+    function sum(uint num1, uint num2) public pure returns(uint) {
+        return num1 + num2;
+    }
+    
+    //VIEW
+    //funções view, só alteram, não consultar nada no blockchain
+    function sum(uint num1) public view returns(uint) {
+        return num1 + number;
+    }
+    
+
 }
