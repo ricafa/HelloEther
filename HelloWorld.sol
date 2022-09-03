@@ -5,7 +5,7 @@ contract HelloWorld{
     uint public number;
     address public userAddress;
     bool public answer;
-    mapping(address=>bool) public hasInteracted;
+    mapping(address=>uint) public hasInteracted;
 
     constructor(string memory initialMessage) public {
         text = initialMessage;
@@ -34,10 +34,10 @@ contract HelloWorld{
         setInteracted();
     }
 
-    //se usuário há enviou alguma transação fica true.
+    //contar quantas vezes alguém interagiu com contrato.
     //não pode ser chamada pelo usuário.
     function setInteracted() private {
-        hasInteracted[msg.sender] = true;
+        hasInteracted[msg.sender] += 1;
     }
 
     //PURE?
@@ -52,6 +52,5 @@ contract HelloWorld{
     function sum(uint num1) public view returns(uint) {
         return num1 + number;
     }
-    
 
 }
