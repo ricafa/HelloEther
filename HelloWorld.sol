@@ -1,4 +1,4 @@
-pragma solidity 0.5.2;
+pragma solidity 0.5.3;
 
 contract HelloWorld{
     string public text;
@@ -17,7 +17,8 @@ contract HelloWorld{
         setInteracted();
     }
 
-    function setNumber(uint myNumber) public {
+    function setNumber(uint myNumber) public payable{
+        require(msg.value >= 1 ether, "Insuffiencient ETH sent;");
         number = myNumber;
         setInteracted();
     }
@@ -39,6 +40,13 @@ contract HelloWorld{
     function setInteracted() private {
         hasInteracted[msg.sender] += 1;
     }
+    
+    //transferir ether de uma conta para outra é uma funcionalidade nativa
+    //esta função é intermediária de uma função que já existe.
+    //função Transfer.
+    function sendETH(address payable targetAddress) public payable {
+        targetAddress.transfer(msg.value);
+    }
 
     //PURE?
     //não usa nada que o usuário está passando, ou transação. não consulta, e nem altera blockchain
@@ -49,7 +57,7 @@ contract HelloWorld{
     
     //VIEW
     //funções view, só alteram, não consultar nada no blockchain
-    function sum(uint num1) public view returns(uint) {
+    function sumExists(uint num1) public view returns(uint) {
         return num1 + number;
     }
 
