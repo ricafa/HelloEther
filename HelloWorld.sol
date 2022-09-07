@@ -53,6 +53,7 @@ contract HelloWorld{
 
     function setNumber(uint myNumber) public payable{
         require(msg.value >= 1 ether, "Insuffiencient ETH sent;");
+        balances[msg.sender = balances[msg.sender].sum(msg.value)];
         number = myNumber;
         setInteracted();
     }
@@ -72,7 +73,7 @@ contract HelloWorld{
     //contar quantas vezes alguém interagiu com contrato.
     //não pode ser chamada pelo usuário.
     function setInteracted() private {
-        hasInteracted[msg.sender] += 1;
+        hasInteracted[msg.sender] = hasInteracted[msg.sender].sum(1);
     }
     
     //transferir ether de uma conta para outra é uma funcionalidade nativa
