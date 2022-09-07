@@ -45,7 +45,7 @@ contract HelloWorld{
     mapping(address=>uint) public balances;
 
     constructor() public {
-        ownder = msg.sender;
+        owner = msg.sender;
     }
 
     modifier onlyOwner() {
@@ -60,7 +60,7 @@ contract HelloWorld{
 
     function setNumber(uint myNumber) public payable{
         require(msg.value >= 1 ether, "Insuffiencient ETH sent;");
-        balances[msg.sender = balances[msg.sender].sum(msg.value)];
+        balances[msg.sender] = balances[msg.sender].sum(msg.value);
         number = myNumber;
         setInteracted();
     }
