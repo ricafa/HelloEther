@@ -34,6 +34,9 @@ library SafeMath{
 
 contract HelloWorld{
     using SafeMath for uint;
+
+    address public owner;
+
     string public text;
     uint public number;
     address public userAddress;
@@ -41,12 +44,16 @@ contract HelloWorld{
     mapping(address=>uint) public hasInteracted;
     mapping(address=>uint) public balances;
 
-    constructor(string memory initialMessage) public {
-        text = initialMessage;
-        setInteracted();
+    constructor() public {
+        ownder = msg.sender;
     }
 
-    function setText(string memory myText) public {
+    modifier onlyOwner() {
+        require(msg.sender == owner, "You are not the owner");
+        _;
+    }
+
+    function setText(string memory myText) onlyOwner public {
         text = myText;
         setInteracted();
     }
