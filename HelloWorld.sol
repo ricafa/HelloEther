@@ -1,4 +1,4 @@
-pragma solidity 0.5.3;
+pragma solidity 0.5.17;
 
 contract HelloWorld{
     string public text;
@@ -6,6 +6,7 @@ contract HelloWorld{
     address public userAddress;
     bool public answer;
     mapping(address=>uint) public hasInteracted;
+    mapping(address=>uint) public balances;
 
     constructor(string memory initialMessage) public {
         text = initialMessage;
@@ -49,7 +50,7 @@ contract HelloWorld{
     }
 
     function withdraw() public {
-        require(balances[msg.sender] > 0, 'Insuficient funds');
+        require(balances[msg.sender] > 0, "Insufficient funds");
         
         uint amount = balances[msg.sender];
         balances[msg.sender] = 0;
@@ -59,14 +60,37 @@ contract HelloWorld{
     //PURE?
     //não usa nada que o usuário está passando, ou transação. não consulta, e nem altera blockchain
     //as funções PURAS são grátis.
-    function sum(uint num1, uint num2) public pure returns(uint) {
-        return num1 + num2;
+    function sum(uint a, uint b) public pure returns(uint) {
+        uint c = a+b;
+        require (c >= a, "Sum Overflow.");
+        return c;
+    }
+
+    function sub(uint a, uint b) public pure returns(uint) {
+        require(b<=a, "Sub Overflow.");
+        uint c = a - b;
+        return c;
+    }
+
+    function mul(uint a, uint b) public pure returns(uint) {
+        if(a==0 || b==0){
+            return 0;
+        }
+        uint c = a * b;
+        require(c / a == b,"Mul Overflow");
+        return c;
+    }
+
+    function div(uint a, uint b) public pure returns(uint) {
+        require(b>0, "Div Overflow");
+        uint c = a / b;
+        return c;
     }
     
     //VIEW
     //funções view, só alteram, não consultar nada no blockchain
-    function sumExists(uint num1) public view returns(uint) {
-        return num1 + number;
+    function sumExists(uint a) public view returns(uint) {
+        return a + number;
     }
 
 }
