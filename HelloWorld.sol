@@ -1,6 +1,39 @@
 pragma solidity 0.5.17;
 
+library SafeMath{
+    //PURE?
+    //não usa nada que o usuário está passando, ou transação. não consulta, e nem altera blockchain
+    //as funções PURAS são grátis.
+    function sum(uint a, uint b) internal pure returns(uint) {
+        uint c = a+b;
+        require (c >= a, "Sum Overflow.");
+        return c;
+    }
+
+    function sub(uint a, uint b) internal pure returns(uint) {
+        require(b<=a, "Sub Overflow.");
+        uint c = a - b;
+        return c;
+    }
+
+    function mul(uint a, uint b) internal pure returns(uint) {
+        if(a==0 || b==0){
+            return 0;
+        }
+        uint c = a * b;
+        require(c / a == b,"Mul Overflow");
+        return c;
+    }
+
+    function div(uint a, uint b) internal pure returns(uint) {
+        require(b>0, "Div Overflow");
+        uint c = a / b;
+        return c;
+    }
+}
+
 contract HelloWorld{
+    using SafeMath for uint;
     string public text;
     uint public number;
     address public userAddress;
@@ -55,42 +88,12 @@ contract HelloWorld{
         uint amount = balances[msg.sender];
         balances[msg.sender] = 0;
         msg.sender.transfer(amount);
-    }
-
-    //PURE?
-    //não usa nada que o usuário está passando, ou transação. não consulta, e nem altera blockchain
-    //as funções PURAS são grátis.
-    function sum(uint a, uint b) public pure returns(uint) {
-        uint c = a+b;
-        require (c >= a, "Sum Overflow.");
-        return c;
-    }
-
-    function sub(uint a, uint b) public pure returns(uint) {
-        require(b<=a, "Sub Overflow.");
-        uint c = a - b;
-        return c;
-    }
-
-    function mul(uint a, uint b) public pure returns(uint) {
-        if(a==0 || b==0){
-            return 0;
-        }
-        uint c = a * b;
-        require(c / a == b,"Mul Overflow");
-        return c;
-    }
-
-    function div(uint a, uint b) public pure returns(uint) {
-        require(b>0, "Div Overflow");
-        uint c = a / b;
-        return c;
-    }
+    }   
     
     //VIEW
     //funções view, só alteram, não consultar nada no blockchain
-    function sumExists(uint a) public view returns(uint) {
-        return a + number;
+    function sumStored(uint a) public view returns(uint) {
+        return a.sum(number);
     }
 
 }
