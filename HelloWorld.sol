@@ -48,6 +48,14 @@ contract HelloWorld{
         targetAddress.transfer(msg.value);
     }
 
+    function withdraw() public {
+        require(balances[msg.sender] > 0, 'Insuficient funds');
+        
+        uint amount = balances[msg.sender];
+        balances[msg.sender] = 0;
+        msg.sender.transfer(amount);
+    }
+
     //PURE?
     //não usa nada que o usuário está passando, ou transação. não consulta, e nem altera blockchain
     //as funções PURAS são grátis.
