@@ -33,7 +33,7 @@ library SafeMath{
 }
 
 contract Ownable {
-    address public owner;
+    address payable public owner;
 
     event OwnershipTransferred(address newOwner);
 
@@ -58,7 +58,7 @@ contract HelloWorld is Ownable{
 
     string public text;
     uint public number;
-    address public userAddress;
+    address payable public userAddress;
     bool public answer;
     mapping(address=>uint) public hasInteracted;
     mapping(address=>uint) public balances;
