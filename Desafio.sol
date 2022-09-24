@@ -55,8 +55,16 @@ contract Ownable {
 
 contract Challenge is Ownable{
     using SafeMath for uint;
-      function whatAbout (uint myNumber) public{
+
+    uint price = 25 finney;
+
+    event NewPrice(uint newPrice);
+
+    function whatAbout (uint myNumber) public payable returns(string memory){
         require(myNumber <= 10, "Number out of range.");
+        require(msg.value==price, "Wrong msg.value");
+
+        doublePrice();
 
         if(myNumber>5){
             return "É maior que cinco!";
@@ -64,6 +72,12 @@ contract Challenge is Ownable{
         else{
             return "É menor ou igual a cinco!";
         }
-      }
+    }
+
+    function doublePrice() private{
+        price = price.mul(2);
+
+        emit NewPrice(price);
+    }
 
 }
