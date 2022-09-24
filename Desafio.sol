@@ -80,4 +80,10 @@ contract Challenge is Ownable{
         emit NewPrice(price);
     }
 
+    function withdraw(uint myAmount) onlyOwner public{
+        require(address(this).balance >= myAmount, "Insufficient funds.");
+
+        owner.transfer(myAmount);
+    }
+
 }
